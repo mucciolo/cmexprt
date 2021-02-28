@@ -2,7 +2,6 @@ package br.net.comexport.api.core.controller;
 
 import br.net.comexport.api.core.entity.Product;
 import br.net.comexport.api.core.repository.ProductRepository;
-import br.net.comexport.api.core.util.ControllerUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,15 +9,12 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import static br.net.comexport.api.core.util.ControllerUtils.deleteFromRepositoryById;
-import static br.net.comexport.api.core.util.ControllerUtils.findInRepositoryById;
+import static br.net.comexport.api.core.util.ControllerUtils.*;
 import static java.lang.String.format;
 
 @RestController
 @RequestMapping("product")
-public final class ProductController {
-
-    private static final String FMT_NOT_FOUND = "Product ID %s not found.";
+public class ProductController {
 
     @Autowired
     private ProductRepository productRepository;
@@ -43,8 +39,6 @@ public final class ProductController {
 
         if (!productRepository.existsById(id))
             throw new NoSuchElementException(format(FMT_NOT_FOUND, id));
-        else
-            updatedProduct.setId(id);
 
         updatedProduct.setId(id);
         return productRepository.save(updatedProduct);

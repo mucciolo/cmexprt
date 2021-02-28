@@ -20,7 +20,7 @@ import static java.lang.String.format;
 
 @RestController
 @RequestMapping("order")
-public final class OrderController {
+public class OrderController {
 
     private static final String FMT_NOT_FOUND = "Order ID %s not found.";
 
