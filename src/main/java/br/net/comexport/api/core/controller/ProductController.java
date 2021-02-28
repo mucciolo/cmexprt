@@ -8,19 +8,24 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.NoSuchElementException;
 
+import static br.net.comexport.api.core.util.ControllerUtils.deleteFromRepositoryById;
+import static br.net.comexport.api.core.util.ControllerUtils.findInRepositoryById;
 import static java.lang.String.format;
 
 @RestController
 @RequestMapping("product")
 public final class ProductController {
 
+    private static final String FMT_NOT_FOUND = "Product ID %s not found.";
+
     @Autowired
     private ProductRepository productRepository;
 
     @GetMapping("/{id}")
     public Product findById(@PathVariable final Long id) {
-        return ControllerUtils.findInRepositoryById(productRepository, id);
+        return findInRepositoryById(productRepository, id);
     }
 
     @GetMapping
@@ -29,12 +34,24 @@ public final class ProductController {
     }
 
     @PutMapping
-    public Product save(@RequestBody @Valid final Product product) {
-        return productRepository.save(product);
+    public Product create(@RequestBody @Valid final Product newProduct) {
+        return productRepository.save(newProduct);
+    }
+
+    @PutMapping("/{id}")
+    public Product update(@PathVariable final Long id, @RequestBody @Valid final Product updatedProduct) {
+
+        if (!productRepository.existsById(id))
+            throw new NoSuchElementException(format(FMT_NOT_FOUND, id));
+        else
+            updatedProduct.setId(id);
+
+        updatedProduct.setId(id);
+        return productRepository.save(updatedProduct);
     }
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable final Long id) {
-        return ControllerUtils.deleteFromRepositoryById(productRepository, id);
+        return deleteFromRepositoryById(productRepository, id);
     }
 }
