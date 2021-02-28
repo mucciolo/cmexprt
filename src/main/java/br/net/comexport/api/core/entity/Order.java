@@ -42,9 +42,7 @@ public class Order {
 
     @ManyToOne(optional = false, fetch = LAZY)
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
-                      property = "id",
-                      resolver = EntityIdResolver.class,
-                      scope = User.class)
+                      property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     @JsonProperty("userId")
     @NotNull
@@ -52,9 +50,7 @@ public class Order {
 
     @ManyToOne(optional = false, fetch = LAZY)
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
-                      property = "id",
-                      resolver = EntityIdResolver.class,
-                      scope = Product.class)
+                      property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     @JsonProperty("productId")
     @NotNull

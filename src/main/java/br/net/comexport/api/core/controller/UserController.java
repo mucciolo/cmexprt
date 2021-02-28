@@ -57,7 +57,7 @@ public final class UserController {
         return userRepository.save(unsavedUser);
     }
 
-    private Consumer<User> throwExceptionIfEmailHasChanged(final User user) {
+    private static Consumer<User> throwExceptionIfEmailHasChanged(final User user) {
         return currentlySavedUser -> {
             if (!currentlySavedUser.getEmail().equals(user.getEmail()))
                 throw new IllegalArgumentException(MSG_EMAIL_CHANGE_NOT_ALLOWED);

@@ -7,7 +7,7 @@ import java.util.Optional;
 
 import static java.lang.System.currentTimeMillis;
 
-public class DateAuditor implements AuditorAware<Date> {
+public final class DateAuditor implements AuditorAware<Date> {
 
     @Override
     public Optional<Date> getCurrentAuditor() {
