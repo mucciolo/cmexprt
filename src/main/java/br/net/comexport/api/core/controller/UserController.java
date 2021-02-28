@@ -2,6 +2,7 @@ package br.net.comexport.api.core.controller;
 
 import br.net.comexport.api.core.entity.User;
 import br.net.comexport.api.core.repository.UserRepository;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -12,15 +13,15 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Date;
-import java.util.function.Consumer;
 
 import static br.net.comexport.api.core.util.ControllerUtils.deleteFromRepositoryById;
 import static br.net.comexport.api.core.util.ControllerUtils.findInRepositoryById;
-import static java.lang.String.format;
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.contains;
+import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
-@RequestMapping("user")
+@RequestMapping(value = "user")
+@Api(tags = {"User API"})
 public final class UserController {
 
     private static final String MSG_EMAIL_CHANGE_NOT_ALLOWED = "Changing e-mail is not allowed after creation.";
@@ -49,19 +50,20 @@ public final class UserController {
     }
 
     @PutMapping
-    public User save(@RequestBody @Valid final User unsavedUser) {
-
-        if (unsavedUser.getId() != null)
-            userRepository.findById(unsavedUser.getId()).ifPresent(throwExceptionIfEmailHasChanged(unsavedUser));
-
-        return userRepository.save(unsavedUser);
+    @ResponseStatus(CREATED)
+    public User create(@RequestBody @Valid final User user) {
+        return userRepository.save(user);
     }
 
-    private static Consumer<User> throwExceptionIfEmailHasChanged(final User user) {
-        return currentlySavedUser -> {
-            if (!currentlySavedUser.getEmail().equals(user.getEmail()))
-                throw new IllegalArgumentException(MSG_EMAIL_CHANGE_NOT_ALLOWED);
-        };
+    @PutMapping("/{id}")
+    public User update(@PathVariable final Long id, @RequestBody @Valid final User updatedUser) {
+
+        if (!findInRepositoryById(userRepository, id).getEmail().equals(updatedUser.getEmail()))
+            throw new IllegalArgumentException(MSG_EMAIL_CHANGE_NOT_ALLOWED);
+        else
+            updatedUser.setId(id);
+
+        return userRepository.save(updatedUser);
     }
 
     @DeleteMapping("/{id}")
