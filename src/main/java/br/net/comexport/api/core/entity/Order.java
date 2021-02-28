@@ -3,7 +3,10 @@ package br.net.comexport.api.core.entity;
 import br.net.comexport.api.core.controller.enums.CanalDeVenda;
 import br.net.comexport.api.core.repository.ProductRepository;
 import br.net.comexport.api.core.repository.UserRepository;
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,8 +22,6 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
-import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
 import static java.lang.String.format;
 import static java.lang.String.join;
 import static javax.persistence.FetchType.LAZY;
@@ -35,11 +36,10 @@ import static org.springframework.format.annotation.NumberFormat.Style.CURRENCY;
 @NoArgsConstructor(access = PRIVATE)
 @AllArgsConstructor(access = PRIVATE)
 @Builder
-public class Order {
+public class Order implements Updatable<Order> {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @JsonProperty(access = READ_ONLY)
     private Long id;
 
     @ManyToOne(optional = false, fetch = LAZY)
@@ -66,12 +66,22 @@ public class Order {
     private Double price;
 
     @CreatedDate
-    @Column(updatable = false)
-    @JsonInclude(NON_NULL)
+    @Column(nullable = false, updatable = false)
     private Date createdAt;
 
     @LastModifiedDate
+    @Column(nullable = false)
     private Date updatedAt;
+
+    @Override
+    public Order update(final Order entityToBeUpdate) {
+        entityToBeUpdate.setUser(this.user);
+        entityToBeUpdate.setProduct(this.product);
+        entityToBeUpdate.setStatus(this.status);
+        entityToBeUpdate.setPrice(this.price);
+
+        return entityToBeUpdate;
+    }
 
     public enum Status {
         AGUARDANDO_ENTREGA,
