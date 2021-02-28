@@ -100,8 +100,8 @@ public class Order implements Updatable<Order> {
         @NotNull Long productId;
         @NotNull CanalDeVenda canalDeVenda;
 
-        public Order toEntity(@NotNull final UserRepository userRepository,
-                              @NotNull final ProductRepository productRepository)
+        public Order toEntity(final UserRepository userRepository,
+                              final ProductRepository productRepository)
                 throws ConstraintViolationException {
 
             throwExceptionIfNotValid(userRepository, productRepository);
@@ -116,8 +116,8 @@ public class Order implements Updatable<Order> {
                         .build();
         }
 
-        public void throwExceptionIfNotValid(@NotNull final UserRepository userRepository,
-                                             @NotNull final ProductRepository productRepository)
+        public void throwExceptionIfNotValid(final UserRepository userRepository,
+                                             final ProductRepository productRepository)
                 throws ConstraintViolationException {
 
             final ArrayList<String> validationMessages = new ArrayList<>(2);
