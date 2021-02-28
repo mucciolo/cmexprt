@@ -16,7 +16,7 @@ import static br.net.comexport.api.core.util.ControllerUtils.deleteFromRepositor
 import static br.net.comexport.api.core.util.ControllerUtils.findInRepositoryById;
 
 @RestController
-@RequestMapping("{api.ver}/order")
+@RequestMapping("order")
 public final class OrderController {
 
     @Autowired

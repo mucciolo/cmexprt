@@ -12,7 +12,7 @@ import java.util.List;
 import static java.lang.String.format;
 
 @RestController
-@RequestMapping("{api.ver}/product")
+@RequestMapping("product")
 public final class ProductController {
 
     @Autowired
