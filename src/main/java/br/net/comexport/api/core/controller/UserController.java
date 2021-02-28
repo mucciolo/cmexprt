@@ -20,7 +20,7 @@ import static java.lang.String.format;
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.contains;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("{api.ver}/user")
 public final class UserController {
 
     private static final String MSG_EMAIL_CHANGE_NOT_ALLOWED = "Changing e-mail is not allowed after creation.";
