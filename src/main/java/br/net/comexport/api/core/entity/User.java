@@ -1,7 +1,6 @@
 package br.net.comexport.api.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -15,7 +14,6 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
-import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
 import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.TemporalType.DATE;
 
@@ -33,7 +31,6 @@ public class User implements Serializable, Updatable<User> {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @JsonProperty(access = READ_ONLY)
     private Long id;
 
     @NotBlank

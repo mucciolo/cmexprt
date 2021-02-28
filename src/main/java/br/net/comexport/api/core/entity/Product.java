@@ -1,6 +1,5 @@
 package br.net.comexport.api.core.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -14,7 +13,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.Date;
 
-import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
 import static javax.persistence.GenerationType.IDENTITY;
 import static org.springframework.format.annotation.NumberFormat.Style.CURRENCY;
 
@@ -27,7 +25,6 @@ public class Product implements Updatable<Product> {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @JsonProperty(access = READ_ONLY)
     private Long id;
 
     @NotBlank
@@ -41,10 +38,11 @@ public class Product implements Updatable<Product> {
     private Double price;
 
     @CreatedDate
-    @Column(updatable = false)
+    @Column(nullable = false, updatable = false)
     private Date createdAt;
 
     @LastModifiedDate
+    @Column(nullable = false)
     private Date updatedAt;
 
     @Override
