@@ -7,10 +7,11 @@ import br.net.comexport.api.core.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 import static br.net.comexport.api.core.util.ControllerUtils.deleteFromRepositoryById;
@@ -38,12 +39,14 @@ public final class OrderController {
     }
 
     @GetMapping
-    public List<Order> list(final Order orderProbe) {
+    public Page<Order> list(final Order orderProbe,
+                            @RequestParam(defaultValue = "0") final int pageNum,
+                            @RequestParam(defaultValue = "10") final int pageSize) {
 
         final Example<Order> orderExample = Example.of(orderProbe,
                                                        ExampleMatcher.matching().withIgnoreCase());
 
-        return orderRepository.findAll(orderExample);
+        return orderRepository.findAll(orderExample, PageRequest.of(pageNum, pageSize));
     }
 
     @PutMapping
