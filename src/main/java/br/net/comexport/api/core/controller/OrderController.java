@@ -36,8 +36,6 @@ public final class OrderController {
     @GetMapping
     public List<Order> list(final Order order) {
 
-        System.out.println(order.getProduct().getId());
-
         final Example<Order> orderExample = Example.of(order,
                                                        ExampleMatcher.matching().withIgnoreCase());
 
