@@ -1,8 +1,7 @@
-package br.net.comexport.controller;
+package br.net.comexport.api.core.controller;
 
-import br.net.comexport.entity.User;
-import br.net.comexport.repository.UserRepository;
-import br.net.comexport.util.ControllerUtils;
+import br.net.comexport.api.core.entity.User;
+import br.net.comexport.api.core.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -15,8 +14,8 @@ import javax.validation.Valid;
 import java.util.Date;
 import java.util.function.Consumer;
 
-import static br.net.comexport.util.ControllerUtils.deleteFromRepositoryById;
-import static br.net.comexport.util.ControllerUtils.findInRepositoryById;
+import static br.net.comexport.api.core.util.ControllerUtils.deleteFromRepositoryById;
+import static br.net.comexport.api.core.util.ControllerUtils.findInRepositoryById;
 import static java.lang.String.format;
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.contains;
 

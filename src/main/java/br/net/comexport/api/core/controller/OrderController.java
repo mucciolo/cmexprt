@@ -1,9 +1,9 @@
-package br.net.comexport.controller;
+package br.net.comexport.api.core.controller;
 
-import br.net.comexport.entity.Order;
-import br.net.comexport.repository.OrderRepository;
-import br.net.comexport.repository.ProductRepository;
-import br.net.comexport.repository.UserRepository;
+import br.net.comexport.api.core.entity.Order;
+import br.net.comexport.api.core.repository.OrderRepository;
+import br.net.comexport.api.core.repository.ProductRepository;
+import br.net.comexport.api.core.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-import static br.net.comexport.util.ControllerUtils.deleteFromRepositoryById;
-import static br.net.comexport.util.ControllerUtils.findInRepositoryById;
+import static br.net.comexport.api.core.util.ControllerUtils.deleteFromRepositoryById;
+import static br.net.comexport.api.core.util.ControllerUtils.findInRepositoryById;
 
 @RestController
 @RequestMapping("/order")

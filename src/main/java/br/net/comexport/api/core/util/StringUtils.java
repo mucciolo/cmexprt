@@ -1,4 +1,4 @@
-package br.net.comexport.util;
+package br.net.comexport.api.core.util;
 
 import static java.lang.System.lineSeparator;
 

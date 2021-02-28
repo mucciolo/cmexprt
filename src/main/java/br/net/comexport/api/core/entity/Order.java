@@ -1,8 +1,8 @@
-package br.net.comexport.entity;
+package br.net.comexport.api.core.entity;
 
-import br.net.comexport.controller.enums.CanalDeVenda;
-import br.net.comexport.repository.ProductRepository;
-import br.net.comexport.repository.UserRepository;
+import br.net.comexport.api.core.controller.enums.CanalDeVenda;
+import br.net.comexport.api.core.repository.ProductRepository;
+import br.net.comexport.api.core.repository.UserRepository;
 import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

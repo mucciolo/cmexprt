@@ -1,4 +1,4 @@
-package br.net.comexport.auditor;
+package br.net.comexport.api.core.auditor;
 
 import org.springframework.data.domain.AuditorAware;
 

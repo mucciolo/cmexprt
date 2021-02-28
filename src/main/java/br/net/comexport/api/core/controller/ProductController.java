@@ -1,17 +1,14 @@
-package br.net.comexport.controller;
+package br.net.comexport.api.core.controller;
 
-import br.net.comexport.entity.Product;
-import br.net.comexport.repository.ProductRepository;
-import br.net.comexport.util.ControllerUtils;
+import br.net.comexport.api.core.entity.Product;
+import br.net.comexport.api.core.repository.ProductRepository;
+import br.net.comexport.api.core.util.ControllerUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.NoSuchElementException;
 
-import static br.net.comexport.util.ControllerUtils.deleteFromRepositoryById;
-import static br.net.comexport.util.ControllerUtils.findInRepositoryById;
 import static java.lang.String.format;
 
 @RestController
@@ -23,7 +20,7 @@ public final class ProductController {
 
     @GetMapping("/{id}")
     public Product findById(@PathVariable final Long id) {
-        return findInRepositoryById(productRepository, id);
+        return ControllerUtils.findInRepositoryById(productRepository, id);
     }
 
     @GetMapping
@@ -38,6 +35,6 @@ public final class ProductController {
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable final Long id) {
-        return deleteFromRepositoryById(productRepository, id);
+        return ControllerUtils.deleteFromRepositoryById(productRepository, id);
     }
 }

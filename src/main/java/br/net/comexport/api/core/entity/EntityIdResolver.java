@@ -1,4 +1,4 @@
-package br.net.comexport.entity;
+package br.net.comexport.api.core.entity;
 
 import com.fasterxml.jackson.annotation.ObjectIdGenerator;
 import com.fasterxml.jackson.annotation.ObjectIdResolver;

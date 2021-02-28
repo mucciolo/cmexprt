@@ -1,6 +1,6 @@
-package br.net.comexport.controller.enums;
+package br.net.comexport.api.core.controller.enums;
 
-import br.net.comexport.entity.Order;
+import br.net.comexport.api.core.entity.Order;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

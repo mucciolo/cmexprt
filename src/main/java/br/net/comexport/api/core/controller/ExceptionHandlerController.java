@@ -1,6 +1,6 @@
-package br.net.comexport.controller;
+package br.net.comexport.api.core.controller;
 
-import br.net.comexport.util.StringUtils;
+import br.net.comexport.api.core.util.StringUtils;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import lombok.Value;
 import org.springframework.beans.factory.annotation.Autowired;

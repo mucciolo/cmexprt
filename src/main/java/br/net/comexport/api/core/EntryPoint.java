@@ -1,4 +1,4 @@
-package br.net.comexport;
+package br.net.comexport.api.core;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
