@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
+import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
 import static java.lang.String.format;
 import static java.lang.String.join;
 import static javax.persistence.FetchType.LAZY;
@@ -38,13 +39,14 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
+    @JsonProperty(access = READ_ONLY)
     private Long id;
 
     @ManyToOne(optional = false, fetch = LAZY)
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
                       property = "id")
     @JsonIdentityReference(alwaysAsId = true)
-    @JsonProperty("userId")
+    @JsonProperty("user.id")
     @NotNull
     private User user;
 
@@ -52,7 +54,7 @@ public class Order {
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
                       property = "id")
     @JsonIdentityReference(alwaysAsId = true)
-    @JsonProperty("productId")
+    @JsonProperty("product.id")
     @NotNull
     private Product product;
 
@@ -79,7 +81,7 @@ public class Order {
 
     @Data
     @NoArgsConstructor
-    public static class SaveDTO {
+    public static class CreationDTO {
 
         private static final String FMT_USER_NOT_EXISTS = "User ID %s does not exists.";
         private static final String FMT_PRODUCT_NOT_EXISTS = "Product ID %s does not exists.";

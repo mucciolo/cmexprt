@@ -11,13 +11,17 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static br.net.comexport.api.core.util.ControllerUtils.deleteFromRepositoryById;
 import static br.net.comexport.api.core.util.ControllerUtils.findInRepositoryById;
+import static java.lang.String.format;
 
 @RestController
 @RequestMapping("order")
 public final class OrderController {
+
+    private static final String FMT_NOT_FOUND = "Order ID %s not found.";
 
     @Autowired
     private OrderRepository orderRepository;
@@ -34,17 +38,28 @@ public final class OrderController {
     }
 
     @GetMapping
-    public List<Order> list(final Order order) {
+    public List<Order> list(final Order orderProbe) {
 
-        final Example<Order> orderExample = Example.of(order,
+        final Example<Order> orderExample = Example.of(orderProbe,
                                                        ExampleMatcher.matching().withIgnoreCase());
 
         return orderRepository.findAll(orderExample);
     }
 
     @PutMapping
-    public Order save(@RequestBody @Valid final Order.SaveDTO orderSaveDTO) {
-        return orderRepository.save(orderSaveDTO.toEntity(userRepository, productRepository));
+    public Order create(@RequestBody @Valid final Order.CreationDTO orderCreationDTO) {
+        return orderRepository.save(orderCreationDTO.toEntity(userRepository, productRepository));
+    }
+
+    @PutMapping("/{id}")
+    public Order update(@PathVariable final Long id, @RequestBody @Valid final Order updatedOrder) {
+
+        if (!productRepository.existsById(id))
+            throw new NoSuchElementException(format(FMT_NOT_FOUND, id));
+        else
+            updatedOrder.setId(id);
+
+        return orderRepository.save(updatedOrder);
     }
 
     @DeleteMapping("/{id}")
