@@ -2,18 +2,20 @@ package br.net.comexport.api.core.controller;
 
 import br.net.comexport.api.core.entity.Product;
 import br.net.comexport.api.core.repository.ProductRepository;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static br.net.comexport.api.core.util.ControllerUtils.*;
-import static java.lang.String.format;
+import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequestMapping("product")
+@Api(tags = {"Product API"})
 public class ProductController {
 
     @Autowired
@@ -30,18 +32,15 @@ public class ProductController {
     }
 
     @PutMapping
+    @ResponseStatus(CREATED)
     public Product create(@RequestBody @Valid final Product newProduct) {
         return productRepository.save(newProduct);
     }
 
     @PutMapping("/{id}")
+    @Transactional
     public Product update(@PathVariable final Long id, @RequestBody @Valid final Product updatedProduct) {
-
-        if (!productRepository.existsById(id))
-            throw new NoSuchElementException(format(FMT_NOT_FOUND, id));
-
-        updatedProduct.setId(id);
-        return productRepository.save(updatedProduct);
+        return updateRepositoryById(productRepository, id, updatedProduct);
     }
 
     @DeleteMapping("/{id}")
