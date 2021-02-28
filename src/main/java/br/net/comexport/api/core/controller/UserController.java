@@ -51,8 +51,8 @@ public final class UserController {
 
     @PutMapping
     @ResponseStatus(CREATED)
-    public User create(@RequestBody @Valid final User user) {
-        return userRepository.save(user);
+    public User create(@RequestBody @Valid final User newUser) {
+        return userRepository.save(newUser);
     }
 
     @PutMapping("/{id}")
