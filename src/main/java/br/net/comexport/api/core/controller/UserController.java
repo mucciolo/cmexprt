@@ -14,6 +14,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import static br.net.comexport.api.core.util.ControllerUtils.*;
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.contains;
 import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
@@ -22,6 +23,8 @@ import static org.springframework.http.HttpStatus.CREATED;
 public class UserController {
 
     private static final ExampleMatcher LIST_EXAMPLE_MATCHER = ExampleMatcher.matching()
+                                                                             .withIgnoreCase()
+                                                                             .withMatcher(User.NAME, contains());
 
     @Autowired
     private UserRepository userRepository;
