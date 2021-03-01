@@ -13,9 +13,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.List;
 
+import static br.net.comexport.api.core.http.HttpStatusValue.*;
 import static java.util.Arrays.asList;
 import static org.springframework.boot.SpringApplication.run;
-import static org.springframework.http.HttpStatus.*;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 import static springfox.documentation.builders.RequestHandlerSelectors.basePackage;
 import static springfox.documentation.spi.DocumentationType.SWAGGER_2;
@@ -29,21 +29,24 @@ public class EntryPoint {
 
     private static final List<ResponseMessage> RESPONSE_MESSAGE_LIST =
             asList(new ResponseMessageBuilder()
-                           .code(NOT_FOUND.value())
-                           .message("Recurso não encontrado.")
+                           .code(BAD_REQUEST)
+                           .message("Malformed syntax or invalid request")
                            .build(),
                    new ResponseMessageBuilder()
-                           .code(BAD_REQUEST.value())
-                           .message("Sintaxe mal formada ou requisição inválida")
+                           .code(NOT_FOUND)
+                           .message("Request object not found")
                            .build(),
                    new ResponseMessageBuilder()
-                           .code(INTERNAL_SERVER_ERROR.value())
-                           .message("Erro interno do servidor.")
+                           .code(INTERNAL_SERVER_ERROR)
+                           .message("Internal server error")
                            .build());
+
+    // TODO load from application.properties
+    private static final String API_VERSION = "v1";
 
     private static final ApiInfo API_INFO = new ApiInfoBuilder()
             .title("Comexport order service")
-            .version("v1")
+            .version(API_VERSION)
             .build();
 
     public static void main(final String[] args) {
