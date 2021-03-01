@@ -9,12 +9,12 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import static br.net.comexport.api.core.http.HttpStatusValue.CREATED;
+import static br.net.comexport.api.core.http.HttpStatusValue.CREATED_VALUE;
+import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequestMapping("order")
@@ -32,10 +32,10 @@ public class OrderController extends CreatelessBaseController<Order, Long, Order
     }
 
     @ApiResponses(value = {
-            @ApiResponse(code = CREATED, message = "Returns the created object")
+            @ApiResponse(code = CREATED_VALUE, message = "Returns the created object")
     })
     @PutMapping(produces = {"application/json", "text/plain"})
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(CREATED)
     public Order create(@RequestBody @Valid final Order.CreationDTO orderCreationDTO) {
         return repository.save(orderCreationDTO.toEntity(userRepository, productRepository));
     }

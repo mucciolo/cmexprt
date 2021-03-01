@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
-import static br.net.comexport.api.core.http.HttpStatusValue.NOT_FOUND;
-import static br.net.comexport.api.core.http.HttpStatusValue.OK;
+import static br.net.comexport.api.core.http.HttpStatusValue.NOT_FOUND_VALUE;
+import static br.net.comexport.api.core.http.HttpStatusValue.OK_VALUE;
 import static br.net.comexport.api.core.util.ControllerUtils.*;
 
 /**
@@ -37,8 +37,8 @@ public abstract class CreatelessBaseController<E extends Updatable<E>, ID, R ext
     }
 
     @ApiResponses(value = {
-            @ApiResponse(code = OK, message = "Returns the object with the given ID"),
-            @ApiResponse(code = NOT_FOUND, message = MSG_NOT_FOUND)
+            @ApiResponse(code = OK_VALUE, message = "Returns the object with the given ID"),
+            @ApiResponse(code = NOT_FOUND_VALUE, message = MSG_NOT_FOUND)
     })
     @GetMapping(value = "/{id}", produces = {"application/json", "text/plain"})
     public E findById(@PathVariable final ID id) {
@@ -46,7 +46,7 @@ public abstract class CreatelessBaseController<E extends Updatable<E>, ID, R ext
     }
 
     @ApiResponses(value = {
-            @ApiResponse(code = OK, message = "Returns a page of objects satisfying the given filtering criteria")
+            @ApiResponse(code = OK_VALUE, message = "Returns a page of objects satisfying the given filtering criteria")
     })
     @GetMapping(produces = {"application/json"})
     public Page<E> list(final E entity,
@@ -56,8 +56,8 @@ public abstract class CreatelessBaseController<E extends Updatable<E>, ID, R ext
     }
 
     @ApiResponses(value = {
-            @ApiResponse(code = OK, message = "Returns the updated object"),
-            @ApiResponse(code = NOT_FOUND, message = MSG_NOT_FOUND)
+            @ApiResponse(code = OK_VALUE, message = "Returns the updated object"),
+            @ApiResponse(code = NOT_FOUND_VALUE, message = MSG_NOT_FOUND)
     })
     @PutMapping(value = "/{id}", produces = {"application/json", "text/plain"})
     @Transactional
@@ -66,8 +66,8 @@ public abstract class CreatelessBaseController<E extends Updatable<E>, ID, R ext
     }
 
     @ApiResponses(value = {
-            @ApiResponse(code = OK, message = "Returns a text message indicating the deletion was successful"),
-            @ApiResponse(code = NOT_FOUND, message = MSG_NOT_FOUND)
+            @ApiResponse(code = OK_VALUE, message = "Returns a text message indicating the deletion was successful"),
+            @ApiResponse(code = NOT_FOUND_VALUE, message = MSG_NOT_FOUND)
     })
     @DeleteMapping(value = "/{id}", produces = {"text/plain"})
     public String delete(@PathVariable final ID id) {
