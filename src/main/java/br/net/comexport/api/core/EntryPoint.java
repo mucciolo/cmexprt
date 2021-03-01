@@ -13,7 +13,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.List;
 
-import static br.net.comexport.api.core.http.HttpStatusValue.*;
+import static br.net.comexport.api.core.http.HttpStatusValue.BAD_REQUEST;
+import static br.net.comexport.api.core.http.HttpStatusValue.INTERNAL_SERVER_ERROR;
 import static java.util.Arrays.asList;
 import static org.springframework.boot.SpringApplication.run;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
@@ -31,10 +32,6 @@ public class EntryPoint {
             asList(new ResponseMessageBuilder()
                            .code(BAD_REQUEST)
                            .message("Malformed syntax or invalid request")
-                           .build(),
-                   new ResponseMessageBuilder()
-                           .code(NOT_FOUND)
-                           .message("Request object not found")
                            .build(),
                    new ResponseMessageBuilder()
                            .code(INTERNAL_SERVER_ERROR)
