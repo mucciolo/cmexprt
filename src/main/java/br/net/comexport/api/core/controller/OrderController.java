@@ -18,8 +18,10 @@ import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequestMapping("order")
-@Api(tags = {"Order API"})
+@Api(tags = {OrderController.TAG_ORDER_API})
 public class OrderController extends CreatelessBaseController<Order, Long, OrderRepository> {
+
+    public static final String TAG_ORDER_API = "Order API";
 
     @Autowired
     private UserRepository userRepository;

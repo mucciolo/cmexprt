@@ -11,10 +11,14 @@ import springfox.documentation.builders.ResponseBuilder;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.service.Response;
+import springfox.documentation.service.Tag;
 import springfox.documentation.spring.web.plugins.Docket;
 
 import java.util.List;
 
+import static br.net.comexport.api.core.controller.OrderController.TAG_ORDER_API;
+import static br.net.comexport.api.core.controller.ProductController.TAG_PRODUCT_API;
+import static br.net.comexport.api.core.controller.UserController.TAG_USER_API;
 import static br.net.comexport.api.core.http.HttpStatusValue.BAD_REQUEST_VALUE;
 import static br.net.comexport.api.core.http.HttpStatusValue.INTERNAL_SERVER_ERROR_VALUE;
 import static java.util.Arrays.asList;
@@ -58,7 +62,10 @@ public class EntryPoint {
                 .useDefaultResponseMessages(false)
                 .globalResponses(GET, RESPONSE_LIST)
                 .globalResponses(PUT, RESPONSE_LIST)
-                .globalResponses(DELETE, RESPONSE_LIST);
+                .globalResponses(DELETE, RESPONSE_LIST)
+                .tags(new Tag(TAG_USER_API, "Service reponsible for user management"),
+                      new Tag(TAG_PRODUCT_API, "Service reponsible for product management"),
+                      new Tag(TAG_ORDER_API, "Service reponsible for order placement and update"));
     }
 
     public ApiInfo buildApiInfo() {

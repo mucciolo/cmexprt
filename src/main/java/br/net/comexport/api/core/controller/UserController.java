@@ -11,8 +11,10 @@ import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatc
 
 @RestController
 @RequestMapping(value = "user")
-@Api(tags = {"User API"})
+@Api(tags = {UserController.TAG_USER_API})
 public class UserController extends BaseController<User, Long, UserRepository> {
+
+    public static final String TAG_USER_API = "User API";
 
     public UserController() {
         super(ExampleMatcher.matching()

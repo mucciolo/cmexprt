@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("product")
-@Api(tags = {"Product API"})
+@Api(tags = {ProductController.TAG_PRODUCT_API})
 public class ProductController extends BaseController<Product, Long, ProductRepository> {
+
+    public static final String TAG_PRODUCT_API = "Product API";
 
     public ProductController() {
         super(ExampleMatcher.matching().withIgnoreCase());
