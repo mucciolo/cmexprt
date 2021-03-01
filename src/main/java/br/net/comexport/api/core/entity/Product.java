@@ -1,5 +1,6 @@
 package br.net.comexport.api.core.entity;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -31,16 +32,19 @@ public class Product implements Updatable<Product> {
     @Column(nullable = false)
     private String description;
 
+    @ApiModelProperty(example = "0.99")
     @NotNull
     @Column(nullable = false)
     @NumberFormat(style = CURRENCY)
     @PositiveOrZero
     private Double price;
 
+    @ApiModelProperty(hidden = true)
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private Date createdAt;
 
+    @ApiModelProperty(hidden = true)
     @LastModifiedDate
     @Column(nullable = false)
     private Date updatedAt;

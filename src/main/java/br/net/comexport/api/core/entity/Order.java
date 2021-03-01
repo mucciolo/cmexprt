@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -42,6 +43,7 @@ public class Order implements Updatable<Order> {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
+    @ApiModelProperty(dataType = "long", example = "1")
     @ManyToOne(optional = false, fetch = LAZY)
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
                       property = "id")
@@ -50,6 +52,7 @@ public class Order implements Updatable<Order> {
     @NotNull
     private User user;
 
+    @ApiModelProperty(dataType = "long", example = "2")
     @ManyToOne(optional = false, fetch = LAZY)
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
                       property = "id")
@@ -61,14 +64,17 @@ public class Order implements Updatable<Order> {
     @NotNull
     private Status status;
 
+    @ApiModelProperty(example = "10.99")
     @NumberFormat(style = CURRENCY)
     @NotNull
     private Double price;
 
+    @ApiModelProperty(hidden = true)
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private Date createdAt;
 
+    @ApiModelProperty(hidden = true)
     @LastModifiedDate
     @Column(nullable = false)
     private Date updatedAt;
