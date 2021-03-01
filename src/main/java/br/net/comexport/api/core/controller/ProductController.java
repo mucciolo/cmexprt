@@ -13,6 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController extends BaseController<Product, Long, ProductRepository> {
 
     public ProductController() {
-        super(ExampleMatcher.matching());
+        super(ExampleMatcher.matching().withIgnoreCase());
     }
 }

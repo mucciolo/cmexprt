@@ -23,7 +23,6 @@ import static org.springframework.http.HttpStatus.CREATED;
 @Api(tags = {"Order API"})
 public class OrderController {
 
-    private static final String FMT_NOT_FOUND = "Order ID %s not found.";
     private static final ExampleMatcher LIST_EXAMPLE_MATCHER = ExampleMatcher.matching().withIgnoreCase();
 
     @Autowired
