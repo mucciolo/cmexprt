@@ -1,19 +1,20 @@
 package br.net.comexport.api.core.controller;
 
-import br.net.comexport.api.core.controller.BaseController.CreateMethod;
 import br.net.comexport.api.core.entity.Order;
 import br.net.comexport.api.core.repository.OrderRepository;
 import br.net.comexport.api.core.repository.ProductRepository;
 import br.net.comexport.api.core.repository.UserRepository;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
+import static br.net.comexport.api.core.http.HttpStatusValue.CREATED;
 
 @RestController
 @RequestMapping("order")
@@ -30,8 +31,11 @@ public class OrderController extends CreatelessBaseController<Order, Long, Order
         super(ExampleMatcher.matching().withIgnoreCase());
     }
 
-    @CreateMethod
+    @ApiResponses(value = {
+            @ApiResponse(code = CREATED, message = "Returns the created object")
+    })
     @PutMapping(produces = {"application/json", "text/plain"})
+    @ResponseStatus(HttpStatus.CREATED)
     public Order create(@RequestBody @Valid final Order.CreationDTO orderCreationDTO) {
         return repository.save(orderCreationDTO.toEntity(userRepository, productRepository));
     }

@@ -22,18 +22,15 @@ import static br.net.comexport.api.core.http.HttpStatusValue.CREATED;
 public abstract class BaseController<E extends Updatable<E>, ID, R extends JpaRepository<E, ID>>
         extends CreatelessBaseController<E, ID, R> {
 
-    @ApiResponses(value = {
-            @ApiResponse(code = CREATED, message = "Returns the created object")
-    })
-    @ResponseStatus(HttpStatus.CREATED)
-    protected @interface CreateMethod {}
-
     public BaseController(final ExampleMatcher listExampleMatcher) {
         super(listExampleMatcher);
     }
 
-    @CreateMethod
+    @ApiResponses(value = {
+            @ApiResponse(code = CREATED, message = "Returns the created object")
+    })
     @PutMapping(produces = {"application/json", "text/plain"})
+    @ResponseStatus(HttpStatus.CREATED)
     public E create(@RequestBody @Valid final E entity) {
         return repository.save(entity);
     }
