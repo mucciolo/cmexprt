@@ -13,7 +13,7 @@
 
   <groupId>br.net.comexport</groupId>
   <artifactId>cmexprt</artifactId>
-  <version>1.0</version>
+  <version>1.0.0</version>
 
   <name>cmexprt</name>
 
@@ -116,11 +116,6 @@
         </plugin>
 
         <plugin>
-          <artifactId>maven-jar-plugin</artifactId>
-          <version>3.1.2</version>
-        </plugin>
-
-        <plugin>
           <artifactId>maven-install-plugin</artifactId>
           <version>2.5.2</version>
         </plugin>
@@ -179,6 +174,32 @@
               </configuration>
             </execution>
           </executions>
+        </plugin>
+
+        <plugin>
+          <artifactId>maven-shade-plugin</artifactId>
+          <version>3.2.4</version>
+          <executions>
+            <execution>
+              <phase>package</phase>
+              <goals>
+                <goal>shade</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>3.1.2</version>
+          <configuration>
+            <archive>
+              <manifest>
+                <mainClass>br.net.comexport.api.core.EntryPoint</mainClass>
+              </manifest>
+            </archive>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
