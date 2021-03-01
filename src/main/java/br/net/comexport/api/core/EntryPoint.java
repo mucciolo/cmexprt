@@ -1,15 +1,17 @@
 package br.net.comexport.api.core;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.ResponseMessageBuilder;
+import springfox.documentation.builders.ResponseBuilder;
 import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.ResponseMessage;
+import springfox.documentation.service.Contact;
+import springfox.documentation.service.Response;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.List;
 
@@ -17,34 +19,28 @@ import static br.net.comexport.api.core.http.HttpStatusValue.BAD_REQUEST_VALUE;
 import static br.net.comexport.api.core.http.HttpStatusValue.INTERNAL_SERVER_ERROR_VALUE;
 import static java.util.Arrays.asList;
 import static org.springframework.boot.SpringApplication.run;
-import static org.springframework.web.bind.annotation.RequestMethod.*;
+import static org.springframework.http.HttpMethod.*;
 import static springfox.documentation.builders.RequestHandlerSelectors.basePackage;
 import static springfox.documentation.spi.DocumentationType.SWAGGER_2;
 
 @SpringBootApplication
 @Configuration
-@EnableSwagger2
 public class EntryPoint {
 
     private static final String API_PACKAGE = "br.net.comexport.api.core.controller";
 
-    private static final List<ResponseMessage> RESPONSE_MESSAGE_LIST =
-            asList(new ResponseMessageBuilder()
-                           .code(BAD_REQUEST_VALUE)
-                           .message("Malformed syntax or invalid request")
+    private static final List<Response> RESPONSE_LIST =
+            asList(new ResponseBuilder()
+                           .code(String.valueOf(BAD_REQUEST_VALUE))
+                           .description("Malformed syntax or invalid request")
                            .build(),
-                   new ResponseMessageBuilder()
-                           .code(INTERNAL_SERVER_ERROR_VALUE)
-                           .message("Internal server error")
+                   new ResponseBuilder()
+                           .code(String.valueOf(INTERNAL_SERVER_ERROR_VALUE))
+                           .description("Internal server error")
                            .build());
 
-    // TODO load from application.properties
-    private static final String API_VERSION = "v1";
-
-    private static final ApiInfo API_INFO = new ApiInfoBuilder()
-            .title("Comexport order service")
-            .version(API_VERSION)
-            .build();
+    @Autowired
+    private Environment env;
 
     public static void main(final String[] args) {
         run(EntryPoint.class, args);
@@ -58,10 +54,21 @@ public class EntryPoint {
                 .apis(basePackage(API_PACKAGE))
                 .paths(PathSelectors.any())
                 .build()
+                .apiInfo(buildApiInfo())
                 .useDefaultResponseMessages(false)
-                .globalResponseMessage(GET, RESPONSE_MESSAGE_LIST)
-                .globalResponseMessage(PUT, RESPONSE_MESSAGE_LIST)
-                .globalResponseMessage(DELETE, RESPONSE_MESSAGE_LIST)
-                .apiInfo(API_INFO);
+                .globalResponses(GET, RESPONSE_LIST)
+                .globalResponses(PUT, RESPONSE_LIST)
+                .globalResponses(DELETE, RESPONSE_LIST);
+    }
+
+    public ApiInfo buildApiInfo() {
+
+        return new ApiInfoBuilder()
+                .title("Comexport ordering REST service")
+                .version(env.getProperty("api.version"))
+                .contact(new Contact("Diego D. Mucciolo", "https://github.com/mucciolo", "diego.mucciolo@hotmail.com"))
+                .license("Apache 2.0")
+                .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0")
+                .build();
     }
 }
