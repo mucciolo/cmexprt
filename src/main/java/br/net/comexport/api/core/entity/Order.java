@@ -96,9 +96,16 @@ public class Order implements Updatable<Order> {
         private static final String FMT_USER_NOT_EXISTS = "User ID %s does not exists.";
         private static final String FMT_PRODUCT_NOT_EXISTS = "Product ID %s does not exists.";
 
-        @NotNull Long userId;
-        @NotNull Long productId;
-        @NotNull CanalDeVenda canalDeVenda;
+        @NotNull
+        @JsonProperty("user.id")
+        Long userId;
+
+        @NotNull
+        @JsonProperty("product.id")
+        Long productId;
+
+        @NotNull
+        CanalDeVenda canalDeVenda;
 
         public Order toEntity(final UserRepository userRepository,
                               final ProductRepository productRepository)
