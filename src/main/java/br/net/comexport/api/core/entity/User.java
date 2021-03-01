@@ -58,12 +58,6 @@ public class User implements Serializable, Updatable<User> {
     @Column(nullable = false)
     private Boolean enabled = true;
 
-    public User(@NotBlank final String name, @Email final String email, final Date birthdate) {
-        this.name = name;
-        this.email = email;
-        this.birthdate = birthdate;
-    }
-
     public User update(final User userToBeUpdated) {
         userToBeUpdated.setName(this.name);
         userToBeUpdated.setBirthdate(this.birthdate);
