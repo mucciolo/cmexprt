@@ -13,9 +13,6 @@ public final class ControllerUtils {
     public static final String FMT_NOT_FOUND = "ID %s not found.";
     public static final String FMT_SUCCESSFUL_DELETION = "ID %s successfully deleted.";
 
-    /**
-     *
-     */
     public static <T extends Updatable<T>, ID, R extends JpaRepository<T, ID>> T updateRepositoryById(
             final R repository,
             final ID id,

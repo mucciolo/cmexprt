@@ -18,7 +18,12 @@ import static br.net.comexport.api.core.http.HttpStatusValue.NOT_FOUND;
 import static br.net.comexport.api.core.http.HttpStatusValue.OK;
 import static br.net.comexport.api.core.util.ControllerUtils.*;
 
-public abstract class CreatelessBaseController<T extends Updatable<T>, ID, R extends JpaRepository<T, ID>> {
+/**
+ * @param <E>  entity type
+ * @param <ID> entity id type
+ * @param <R>  entity repository type
+ */
+public abstract class CreatelessBaseController<E extends Updatable<E>, ID, R extends JpaRepository<E, ID>> {
 
     private static final String MSG_NOT_FOUND = "Returns a text message informing an object with ID does not exists";
 
@@ -36,7 +41,7 @@ public abstract class CreatelessBaseController<T extends Updatable<T>, ID, R ext
             @ApiResponse(code = NOT_FOUND, message = MSG_NOT_FOUND)
     })
     @GetMapping(value = "/{id}", produces = {"application/json", "text/plain"})
-    public T findById(@PathVariable final ID id) {
+    public E findById(@PathVariable final ID id) {
         return findInRepositoryById(repository, id);
     }
 
@@ -44,10 +49,10 @@ public abstract class CreatelessBaseController<T extends Updatable<T>, ID, R ext
             @ApiResponse(code = OK, message = "Returns a page of objects satisfying the given filtering criteria")
     })
     @GetMapping(produces = {"application/json"})
-    public Page<T> list(final T user,
-                           @RequestParam(defaultValue = "0") final int pageNum,
-                           @RequestParam(defaultValue = "10") final int pageSize) {
-        return repository.findAll(Example.of(user, listExampleMatcher), PageRequest.of(pageNum, pageSize));
+    public Page<E> list(final E entity,
+                        @RequestParam(defaultValue = "0") final int pageNum,
+                        @RequestParam(defaultValue = "10") final int pageSize) {
+        return repository.findAll(Example.of(entity, listExampleMatcher), PageRequest.of(pageNum, pageSize));
     }
 
     @ApiResponses(value = {
@@ -56,8 +61,8 @@ public abstract class CreatelessBaseController<T extends Updatable<T>, ID, R ext
     })
     @PutMapping(value = "/{id}", produces = {"application/json", "text/plain"})
     @Transactional
-    public T update(@PathVariable final ID id, @RequestBody @Valid final T updatedUser) {
-        return updateRepositoryById(repository, id, updatedUser);
+    public E update(@PathVariable final ID id, @RequestBody @Valid final E entity) {
+        return updateRepositoryById(repository, id, entity);
     }
 
     @ApiResponses(value = {

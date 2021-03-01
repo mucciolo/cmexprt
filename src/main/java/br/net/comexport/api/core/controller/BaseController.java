@@ -14,8 +14,13 @@ import javax.validation.Valid;
 
 import static br.net.comexport.api.core.http.HttpStatusValue.CREATED;
 
-public abstract class BaseController<T extends Updatable<T>, ID, R extends JpaRepository<T, ID>>
-        extends CreatelessBaseController<T, ID, R> {
+/**
+ * @param <E>  entity type
+ * @param <ID> entity id type
+ * @param <R>  entity repository type
+ */
+public abstract class BaseController<E extends Updatable<E>, ID, R extends JpaRepository<E, ID>>
+        extends CreatelessBaseController<E, ID, R> {
 
     public BaseController(final ExampleMatcher listExampleMatcher) {
         super(listExampleMatcher);
@@ -26,7 +31,7 @@ public abstract class BaseController<T extends Updatable<T>, ID, R extends JpaRe
     })
     @PutMapping(produces = {"application/json", "text/plain"})
     @ResponseStatus(HttpStatus.CREATED)
-    public T create(@RequestBody @Valid final T newUser) {
-        return repository.save(newUser);
+    public E create(@RequestBody @Valid final E entity) {
+        return repository.save(entity);
     }
 }
