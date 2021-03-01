@@ -13,7 +13,19 @@ public final class ControllerUtils {
     public static final String FMT_NOT_FOUND = "ID %s not found.";
     public static final String FMT_SUCCESSFUL_DELETION = "ID %s successfully deleted.";
 
-    public static <T, ID> T findInRepositoryById(final JpaRepository<T, ID> repository, final ID id)
+    /**
+     *
+     */
+    public static <T extends Updatable<T>, ID, R extends JpaRepository<T, ID>> T updateRepositoryById(
+            final R repository,
+            final ID id,
+            final T updatedEntity)
+            throws NoSuchElementException {
+
+        return updatedEntity.update(findInRepositoryById(repository, id));
+    }
+
+    public static <T, ID, R extends JpaRepository<T, ID>> T findInRepositoryById(final R repository, final ID id)
             throws NoSuchElementException {
 
         return repository.findById(id)
@@ -21,18 +33,7 @@ public final class ControllerUtils {
                                                                               id)));
     }
 
-    /**
-     * @implNote use under @Transactional
-     */
-    public static <T extends Updatable<T>, ID> T updateRepositoryById(final JpaRepository<T, ID> repository,
-                                                                       final ID id,
-                                                                       final T updatedEntity)
-            throws NoSuchElementException {
-
-        return updatedEntity.update(findInRepositoryById(repository, id));
-    }
-
-    public static <ID> String deleteFromRepositoryById(final JpaRepository<?, ID> repository, final ID id)
+    public static <ID, R extends JpaRepository<?, ID>> String deleteFromRepositoryById(final R repository, final ID id)
             throws NoSuchElementException {
 
         try {
