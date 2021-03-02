@@ -4,6 +4,7 @@ import br.net.comexport.api.core.entity.Updatable;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
@@ -13,10 +14,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.util.NoSuchElementException;
 
 import static br.net.comexport.api.core.http.HttpStatusValue.NOT_FOUND_VALUE;
 import static br.net.comexport.api.core.http.HttpStatusValue.OK_VALUE;
-import static br.net.comexport.api.core.util.ControllerUtils.*;
+import static java.lang.String.format;
 
 /**
  * @param <E>  entity type
@@ -25,6 +27,8 @@ import static br.net.comexport.api.core.util.ControllerUtils.*;
  */
 public abstract class CreatelessBaseController<E extends Updatable<E>, ID, R extends JpaRepository<E, ID>> {
 
+    private static final String FMT_SUCCESSFUL_DELETION = "ID %s successfully deleted.";
+    private static final String FMT_NOT_FOUND = "ID %s not found.";
     private static final String MSG_NOT_FOUND = "Returns a text message informing an object with ID does not exists";
 
     private final ExampleMatcher listExampleMatcher;
@@ -42,7 +46,9 @@ public abstract class CreatelessBaseController<E extends Updatable<E>, ID, R ext
     })
     @GetMapping(value = "/{id}", produces = {"application/json", "text/plain"})
     public E findById(@PathVariable final ID id) {
-        return findInRepositoryById(repository, id);
+
+        return repository.findById(id)
+                         .orElseThrow(() -> new NoSuchElementException(format(FMT_NOT_FOUND, id)));
     }
 
     @ApiResponses(value = {
@@ -52,6 +58,7 @@ public abstract class CreatelessBaseController<E extends Updatable<E>, ID, R ext
     public Page<E> list(final E entity,
                         @RequestParam(defaultValue = "0") final int pageNum,
                         @RequestParam(defaultValue = "10") final int pageSize) {
+
         return repository.findAll(Example.of(entity, listExampleMatcher), PageRequest.of(pageNum, pageSize));
     }
 
@@ -62,7 +69,8 @@ public abstract class CreatelessBaseController<E extends Updatable<E>, ID, R ext
     @PutMapping(value = "/{id}", produces = {"application/json", "text/plain"})
     @Transactional
     public E update(@PathVariable final ID id, @RequestBody @Valid final E entity) {
-        return updateRepositoryById(repository, id, entity);
+
+        return entity.update(findById(id));
     }
 
     @ApiResponses(value = {
@@ -71,6 +79,13 @@ public abstract class CreatelessBaseController<E extends Updatable<E>, ID, R ext
     })
     @DeleteMapping(value = "/{id}", produces = {"text/plain"})
     public String delete(@PathVariable final ID id) {
-        return deleteFromRepositoryById(repository, id);
+
+        try {
+            repository.deleteById(id);
+
+            return format(FMT_SUCCESSFUL_DELETION, id);
+        } catch (final EmptyResultDataAccessException | IllegalArgumentException e) {
+            throw new NoSuchElementException(format(FMT_NOT_FOUND, id));
+        }
     }
 }
