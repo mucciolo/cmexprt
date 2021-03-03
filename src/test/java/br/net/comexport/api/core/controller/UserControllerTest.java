@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(UserController.class)
 @ActiveProfiles("test")
-public class UserControllerTest {
+class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -42,7 +42,7 @@ public class UserControllerTest {
     private UserRepository userRepository;
 
     @Captor
-    private ArgumentCaptor<Example<User>> userExampleCaptor;
+    private ArgumentCaptor<Example<User>> exampleUserArgumentCaptor;
 
     @Test
     public void shouldAllow_listingByAnyNamePart() throws Exception {
@@ -61,13 +61,13 @@ public class UserControllerTest {
         this.mockMvc.perform(get("/user?name=user")).andExpect(status().isOk())
                     .andExpect(content().json(objectMapper.writeValueAsString(page)));
 
-        verify(userRepository).findAll(userExampleCaptor.capture(), any(Pageable.class));
+        verify(userRepository).findAll(exampleUserArgumentCaptor.capture(), any(Pageable.class));
 
-        assertThat(userExampleCaptor.getValue()
-                                    .getMatcher()
-                                    .getPropertySpecifiers()
-                                    .getForPath(User.NAME)
-                                    .getStringMatcher()).isEqualTo(ExampleMatcher.StringMatcher.CONTAINING);
+        assertThat(exampleUserArgumentCaptor.getValue()
+                                            .getMatcher()
+                                            .getPropertySpecifiers()
+                                            .getForPath(User.NAME)
+                                            .getStringMatcher()).isEqualTo(ExampleMatcher.StringMatcher.CONTAINING);
     }
 
     @Test
