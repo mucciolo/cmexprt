@@ -39,6 +39,9 @@ import static org.springframework.format.annotation.NumberFormat.Style.CURRENCY;
 @Builder
 public class Order implements Updatable<Order> {
 
+    protected static final String JSON_PROPERTY_USER_ID = "user.id";
+    protected static final String JSON_PROPERTY_PRODUCT_ID = "product.id";
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
@@ -48,7 +51,7 @@ public class Order implements Updatable<Order> {
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
                       property = "id")
     @JsonIdentityReference(alwaysAsId = true)
-    @JsonProperty("user.id")
+    @JsonProperty(JSON_PROPERTY_USER_ID)
     @NotNull
     private User user;
 
@@ -57,7 +60,7 @@ public class Order implements Updatable<Order> {
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
                       property = "id")
     @JsonIdentityReference(alwaysAsId = true)
-    @JsonProperty("product.id")
+    @JsonProperty(JSON_PROPERTY_PRODUCT_ID)
     @NotNull
     private Product product;
 
@@ -96,22 +99,24 @@ public class Order implements Updatable<Order> {
     }
 
     @Data
-    @NoArgsConstructor
+    @NoArgsConstructor(access = PRIVATE)
+    @AllArgsConstructor(access = PRIVATE)
+    @Builder
     public static class CreationDTO {
 
         private static final String FMT_USER_NOT_EXISTS = "User ID %s does not exists.";
         private static final String FMT_PRODUCT_NOT_EXISTS = "Product ID %s does not exists.";
 
         @NotNull
-        @JsonProperty("user.id")
-        Long userId;
+        @JsonProperty(JSON_PROPERTY_USER_ID)
+        private Long userId;
 
         @NotNull
-        @JsonProperty("product.id")
-        Long productId;
+        @JsonProperty(JSON_PROPERTY_PRODUCT_ID)
+        private Long productId;
 
         @NotNull
-        CanalDeVenda canalDeVenda;
+        private CanalDeVenda canalDeVenda;
 
         public Order toEntity(final UserRepository userRepository,
                               final ProductRepository productRepository)

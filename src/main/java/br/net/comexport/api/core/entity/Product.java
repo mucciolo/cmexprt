@@ -17,6 +17,7 @@ import javax.validation.constraints.PositiveOrZero;
 import java.util.Date;
 
 import static javax.persistence.GenerationType.IDENTITY;
+import static lombok.AccessLevel.PACKAGE;
 import static lombok.AccessLevel.PRIVATE;
 import static org.springframework.format.annotation.NumberFormat.Style.CURRENCY;
 
@@ -24,7 +25,7 @@ import static org.springframework.format.annotation.NumberFormat.Style.CURRENCY;
 @Table(name = "products")
 @EntityListeners(AuditingEntityListener.class)
 @Data
-@NoArgsConstructor(access = PRIVATE)
+@NoArgsConstructor(access = PACKAGE)
 @AllArgsConstructor(access = PRIVATE)
 @Builder
 public class Product implements Updatable<Product> {

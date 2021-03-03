@@ -21,13 +21,14 @@ import java.util.Date;
 import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
 import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.TemporalType.DATE;
+import static lombok.AccessLevel.PACKAGE;
 import static lombok.AccessLevel.PRIVATE;
 
 @Entity
 @Table(name = "users")
 @EntityListeners(AuditingEntityListener.class)
 @Data
-@NoArgsConstructor(access = PRIVATE)
+@NoArgsConstructor(access = PACKAGE)
 @AllArgsConstructor(access = PRIVATE)
 @Builder
 public class User implements Serializable, Updatable<User> {
