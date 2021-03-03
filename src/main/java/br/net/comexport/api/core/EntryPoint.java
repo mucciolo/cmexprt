@@ -27,7 +27,7 @@ import static org.springframework.http.HttpMethod.*;
 import static springfox.documentation.builders.RequestHandlerSelectors.basePackage;
 import static springfox.documentation.spi.DocumentationType.SWAGGER_2;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"br.net.comexport.api.core"})
 @Configuration
 public class EntryPoint {
 
