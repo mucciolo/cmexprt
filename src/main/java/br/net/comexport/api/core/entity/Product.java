@@ -1,6 +1,8 @@
 package br.net.comexport.api.core.entity;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -15,13 +17,16 @@ import javax.validation.constraints.PositiveOrZero;
 import java.util.Date;
 
 import static javax.persistence.GenerationType.IDENTITY;
+import static lombok.AccessLevel.PRIVATE;
 import static org.springframework.format.annotation.NumberFormat.Style.CURRENCY;
 
 @Entity
 @Table(name = "products")
 @EntityListeners(AuditingEntityListener.class)
 @Data
-@NoArgsConstructor
+@NoArgsConstructor(access = PRIVATE)
+@AllArgsConstructor(access = PRIVATE)
+@Builder
 public class Product implements Updatable<Product> {
 
     @Id

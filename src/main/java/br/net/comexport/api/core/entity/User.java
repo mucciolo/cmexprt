@@ -3,6 +3,8 @@ package br.net.comexport.api.core.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -19,12 +21,15 @@ import java.util.Date;
 import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
 import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.TemporalType.DATE;
+import static lombok.AccessLevel.PRIVATE;
 
 @Entity
 @Table(name = "users")
 @EntityListeners(AuditingEntityListener.class)
 @Data
-@NoArgsConstructor
+@NoArgsConstructor(access = PRIVATE)
+@AllArgsConstructor(access = PRIVATE)
+@Builder
 public class User implements Serializable, Updatable<User> {
 
     private static final long serialVersionUID = 1L;
