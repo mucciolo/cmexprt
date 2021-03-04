@@ -6,6 +6,8 @@ import lombok.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -58,6 +60,13 @@ public final class ExceptionHandlerController {
     @ResponseBody
     protected String illegalArgument(final Exception e) {
         return e.getMessage();
+    }
+
+    @ExceptionHandler(BindException.class)
+    @ResponseStatus(BAD_REQUEST)
+    @ResponseBody
+    protected List<String> bindException(final BindException e) {
+        return e.getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(toList());
     }
 
     @Value
