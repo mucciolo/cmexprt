@@ -65,6 +65,7 @@ class CreatelessBaseControllerTest {
                     .build();
 
         final User updatedUser = User.builder()
+                                     .id(currentUser.getId())
                                      .name("more " + currentUser.getName())
                                      .birthdate(currentUser.getBirthdate())
                                      .email(currentUser.getEmail())
