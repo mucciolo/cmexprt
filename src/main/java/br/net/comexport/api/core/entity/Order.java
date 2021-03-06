@@ -27,6 +27,7 @@ import static java.lang.String.format;
 import static java.lang.String.join;
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
+import static lombok.AccessLevel.PACKAGE;
 import static lombok.AccessLevel.PRIVATE;
 import static org.springframework.format.annotation.NumberFormat.Style.CURRENCY;
 
@@ -99,7 +100,7 @@ public class Order implements Updatable<Order> {
     }
 
     @Data
-    @NoArgsConstructor(access = PRIVATE)
+    @NoArgsConstructor(access = PACKAGE)
     @AllArgsConstructor(access = PRIVATE)
     @Builder
     public static class CreationDTO {
